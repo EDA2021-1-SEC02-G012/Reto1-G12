@@ -38,9 +38,29 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Conocer cuáles son los n videos con más views que son tendencia en un determinado país, dada una categoría específica.")
+    print("3- Conocer cuál es el video que más días ha sido trending para un país específico.")
+    print("4- Cuál es el video que más días ha sido trending para una categoría específica.")
+    print("5- Conocer cuáles son los n videos diferentes con más likes en un país con un tag específico.")
+    print("0- Salir")
+
 
 catalog = None
+
+
+def initCatalog():
+    """
+    Inicializa el catalogo de libros
+    """
+    return controller.initCatalog()
+
+
+def loadData(catalog):
+    """
+    Carga los libros en la estructura de datos
+    """
+    controller.loadData(catalog)
+
 
 """
 Menu principal
@@ -52,6 +72,15 @@ while True:
         print("Cargando información de los archivos ....")
 
     elif int(inputs[0]) == 2:
+        pass
+
+    elif int(inputs[0]) == 3:
+        pass
+
+    elif int(inputs[0]) == 4:
+        pass
+
+    elif int(inputs[0]) == 5:
         pass
 
     else:
