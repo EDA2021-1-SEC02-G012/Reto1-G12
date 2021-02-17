@@ -69,11 +69,6 @@ def addVideo(catalog, video):
     likes = video['likes'].split(",")
     dislikes = video['dislikes'].split(",")
 
-    # Cada autor, se crea en la lista de libros del catalogo, y se
-    # crea un libro en la lista de dicho autor (apuntador al libro)
-    for video in videos:
-        addBookAuthor(catalog, author.strip(), book)
-
 
 def addVideoTitle(catalog, title, video):
     titles = catalog['title']
