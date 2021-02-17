@@ -63,13 +63,18 @@ def loadData(catalog):
 
 
 """
-Menu principal
+Menu principal (title, cannel_title, trending_date, country, views, likes, dislikes).
 """
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
+        print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
+        print('')
 
     elif int(inputs[0]) == 2:
         pass

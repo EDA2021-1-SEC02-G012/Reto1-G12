@@ -36,6 +36,20 @@ listas, una para los videos, otra para las categorias de los mismos.
 """
 
 # Construccion de modelos
+def newCatalog():
+    """
+    Inicializa el catálogo de videos. Crea una lista vacia para guardar
+    todos los videos, adicionalmente, crea una lista vacia para los categorias.
+    """
+    catalog = {'videos': None,
+               'categories': None,
+               }
+
+    catalog['videos'] = lt.newList()
+    catalog['categories'] = lt.newList('SINGLE_LINKED',
+                                    cmpfunction=comparecategories)
+
+    return catalog
 
 # Funciones para agregar informacion al catalogo
 
