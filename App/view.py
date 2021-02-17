@@ -63,7 +63,7 @@ def loadData(catalog):
 
 
 """
-Menu principal (title, cannel_title, trending_date, country, views, likes, dislikes).
+Menu principal
 """
 while True:
     printMenu()

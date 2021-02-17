@@ -36,6 +36,7 @@ listas, una para los videos, otra para las categorias de los mismos.
 """
 
 # Construccion de modelos
+
 def newCatalog():
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
@@ -45,18 +46,63 @@ def newCatalog():
                'categories': None,
                }
 
-    catalog['videos'] = lt.newList()
+    catalog['video'] = lt.newList()
     catalog['categories'] = lt.newList('SINGLE_LINKED',
-                                    cmpfunction=comparecategories)
+                                    cmpfunction=None)
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
 
+def addVideo(catalog, video):
+    # Se adiciona el video a la lista de videos
+    videos = lt.addLast(catalog['video'], video)
+
+    # Se obtienen los datos del requerimiento (title, channel_title, 
+    # trending_date, country, views, likes, dislikes).
+    title = video['title'].split(",")
+    channel_title = video['channel_title'].split(",")
+    trending_date = video['trending_date'].split(",")
+    country = video['country'].split(",")
+    country = video['country'].split(",")
+    views = video['views'].split(",")
+    likes = video['likes'].split(",")
+    dislikes = video['dislikes'].split(",")
+
+    # Cada autor, se crea en la lista de libros del catalogo, y se
+    # crea un libro en la lista de dicho autor (apuntador al libro)
+    for video in videos:
+        addBookAuthor(catalog, author.strip(), book)
+
+
+def addVideoTitle(catalog, title, video):
+    titles = catalog['title']
+    postitle = lt.isPresent(title, )
+    if posauthor > 0:
+        author = lt.getElement(authors, posauthor)
+    else:
+        author = newAuthor(authorname)
+        lt.addLast(authors, author)
+    lt.addLast(author['books'], book)
+
+
 # Funciones para creacion de datos
+
+def newTitle():
+    pass
+
+
+def newCategory():
+    pass
+
 
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
-
+""" 
+def compareauthors(authorname1, author):
+    if (authorname1.lower() in author['name'].lower()):
+        return 0
+    return -1
+"""
 # Funciones de ordenamiento
