@@ -49,9 +49,6 @@ def printMenu():
     print("0- Salir")
 
 
-catalog = None
-
-
 def initCatalog():
     """
     Inicializa el catalogo de libros
@@ -76,11 +73,10 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog()
         loadData(catalog)
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Datos del primer video: ')
-        print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
-        print('Categorías: ' + str(catalog['categories']))
-        
+        print('Videos cargados: ' + str(lt.size(catalog['video'])))
+        print('Datos del primer video: ' + '')
+        print('Categorías cargadas: ' + str(lt.size(catalog['c_id'])))
+
     elif int(inputs[0]) == 2:
         pass
 

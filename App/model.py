@@ -43,7 +43,7 @@ def newCatalog():
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
     todos los videos, adicionalmente, crea una lista vacia para los categorias.
     """
-    catalog = {'videos': None,
+    catalog = {'video': None,
                'categories': None,
                'country': None
                }
@@ -51,6 +51,7 @@ def newCatalog():
     catalog['video'] = lt.newList()
     catalog['categories'] = lt.newList('SINGLE_LINKED')
     catalog['country'] = lt.newList('SINGLE_LINKED')
+    catalog['c_id'] = lt.newList('SINGLE_LINKED')
     return catalog
 
 # Funciones para agregar informacion al catalogo
@@ -75,11 +76,11 @@ def addVideoCountry(catalog, country_name, video):
     lt.addLast(country['video'], video)
 
 
-def addCategory(catalog, category):
+def addCategory(catalog, categories):
     """
     Adiciona una categoría a la lista de categorías
     """
-    c = newCategory(category['name'], category['c_id'])
+    c = newCategory(categories['name'], categories['id'])
     lt.addLast(catalog['c_id'], c)
 
 
