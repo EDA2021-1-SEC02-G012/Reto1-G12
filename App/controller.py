@@ -58,7 +58,7 @@ def loadVideos(catalog):
     cada uno de ellos, se crea en la lista de autores, a dicho autor y una
     referencia al libro que se esta procesando.
     """
-    videosfile = cf.data_dir + '/Reto1-G12/Data/videos/videos-small.csv'
+    videosfile = cf.data_dir + 'videos/videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video)
@@ -69,7 +69,7 @@ def loadCategories(catalog):
     Carga todas las categorías del archivo y los agrega a la lista de
     categorias
     """
-    categoriesfile = cf.data_dir + '/Reto1-G12/Data/videos/category-id.csv'
+    categoriesfile = cf.data_dir + 'videos/category-id.csv'
     input_file = csv.DictReader(open(categoriesfile, encoding='utf-8'))
     for category in input_file:
         model.addCategory(catalog, category)
