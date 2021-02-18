@@ -90,8 +90,9 @@ def newCountry(country_name):
     """
     Crea una nueva estructura para modelar los videos de
     a partir de los paises title, channel_title, trending_date, country, views, likes, dislikes
+    "title": "", "channel_title": "", "trending_date": "", "views": 0, "likes": 0, "dislikes": 0
     """
-    country = {'country_name': "", "video": None, "title": "", "channel_title": "", "trending_date": "", "views": 0, "likes": 0, "dislikes": 0}
+    country = {'country_name': "", "video": None}
     country['country_name'] = country_name
     country['video'] = lt.newList('ARRAY_LIST')
     return country

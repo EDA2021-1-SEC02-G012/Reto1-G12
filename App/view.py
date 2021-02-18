@@ -36,6 +36,7 @@ operación solicitada
 
 
 def printMenu():
+    print("\n_______________________________________________________________")
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Conocer cuáles son los n videos con más views")
@@ -70,12 +71,15 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
+        print("\nCargando información de los archivos ....")
         catalog = initCatalog()
         loadData(catalog)
-        print('Videos cargados: ' + str(lt.size(catalog['video'])))
-        print('Datos del primer video: ' + '')
-        print('Categorías cargadas: ' + str(lt.size(catalog['c_id'])))
+        primervideo = {'Título: ' : str((lt.firstElement(catalog['video'])).get('title')), 'Nombre del canal: ' : str((lt.firstElement(catalog['video'])).get('channel_title')), 'Fue tendencia el día: ' : str((lt.firstElement(catalog['video'])).get('trending_date')), 'Visitas: ' : str((lt.firstElement(catalog['video'])).get('views')), 'Likes: ' : str((lt.firstElement(catalog['video'])).get('likes')), 'Dislikes: ' : str((lt.firstElement(catalog['video'])).get('dislikes'))}
+        print('\nVideos cargados: ' + str(lt.size(catalog['video'])))
+        print('\nDatos del primer video: ')
+        for i in primervideo.keys():
+            print(str(i) + str(primervideo.get(i)))
+        print('\nCategorías cargadas: ' + str(lt.size(catalog['c_id'])))
 
     elif int(inputs[0]) == 2:
         pass
