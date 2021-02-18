@@ -113,10 +113,5 @@ def newCategory(name, c_id):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
-"""
-def sortBooks(catalog):
-    sa.sort(catalog['books'], compareratings)
-"""
-
 
 # Funciones de ordenamiento
