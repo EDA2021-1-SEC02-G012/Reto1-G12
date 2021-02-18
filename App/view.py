@@ -38,10 +38,14 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Conocer cuáles son los n videos con más views que son tendencia en un determinado país, dada una categoría específica.")
-    print("3- Conocer cuál es el video que más días ha sido trending para un país específico.")
-    print("4- Cuál es el video que más días ha sido trending para una categoría específica.")
-    print("5- Conocer cuáles son los n videos diferentes con más likes en un país con un tag específico.")
+    print("2- Conocer cuáles son los n videos con más views")
+    print("que son tendencia en un determinado país, dada una categoría específica.")
+    print("3- Conocer cuál es el video que más días ha sido")
+    print("trending para un país específico.")
+    print("4- Cuál es el video que más días ha sido")
+    print("trending para una categoría específica.")
+    print("5- Conocer cuáles son los n videos diferentes con")
+    print("más likes en un país con un tag específico.")
     print("0- Salir")
 
 
@@ -73,9 +77,10 @@ while True:
         catalog = initCatalog()
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
         print('Datos del primer video: ')
-
+        print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
+        print('Categorías: ' + str(catalog['categories']))
+        
     elif int(inputs[0]) == 2:
         pass
 

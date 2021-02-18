@@ -37,6 +37,7 @@ listas, una para los videos, otra para las categorias de los mismos.
 
 # Construccion de modelos
 
+
 def newCatalog():
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
@@ -47,57 +48,89 @@ def newCatalog():
                }
 
     catalog['video'] = lt.newList()
-    catalog['categories'] = lt.newList('SINGLE_LINKED',
-                                    cmpfunction=None)
-
+    catalog['categories'] = lt.newList('SINGLE_LINKED', cmpfunction=None)
+    catalog["channels"] = lt.newList("SINGLE_LINKED", cmpfunction=compare_channel_titles)
     return catalog
 
 # Funciones para agregar informacion al catalogo
 
+
 def addVideo(catalog, video):
     # Se adiciona el video a la lista de videos
-    videos = lt.addLast(catalog['video'], video)
-
+    lt.addLast(catalog['video'], video)
+    categories = video['category'].split(",")
     # Se obtienen los datos del requerimiento (title, channel_title, 
     # trending_date, country, views, likes, dislikes).
-    title = video['title'].split(",")
-    channel_title = video['channel_title'].split(",")
-    trending_date = video['trending_date'].split(",")
-    country = video['country'].split(",")
-    country = video['country'].split(",")
-    views = video['views'].split(",")
-    likes = video['likes'].split(",")
-    dislikes = video['dislikes'].split(",")
+    """
+    for video in videos: 
 
+        title = video['title'].split(",")
+        channel_title = video['channel_title'].split(",")
+        trending_date = video['trending_date'].split(",")
+        country = video['country'].split(",")
+        country = video['country'].split(",")
+        views = video['views'].split(",")
+        likes = video['likes'].split(",")
+        dislikes = video['dislikes'].split(",")
+    """
+    for video_name in categories:
+        addVideoCategories(catalog, video._namestrip(), video)
 
-def addVideoTitle(catalog, title, video):
-    titles = catalog['title']
-    postitle = lt.isPresent(title, )
-    if posauthor > 0:
-        author = lt.getElement(authors, posauthor)
+def addVideoCategories(catalog, name, video):
+    categories = catalog['categories']
+    poscategory = lt.isPresent(categories, name)
+    if poscategory > 0:
+        category = lt.getElement(categories, poscategory)
     else:
-        author = newAuthor(authorname)
-        lt.addLast(authors, author)
-    lt.addLast(author['books'], book)
+        category = newCategories(name)
+        lt.addLast(categories, category)
+    lt.addLast(category['category'], video)
+
+
+def addCategory(catalog, category):
+    """
+    Adiciona una categoría a la lista de categorías
+    """
+    c = newCategory(category['name'], category['id'])
+    lt.addLast(catalog['category'], c)
 
 
 # Funciones para creacion de datos
 
-def newTitle():
-    pass
-
-
-def newCategory():
-    pass
+def newCategories(name,id):
+    """
+    Esta estructura almancena las categorías utilizados para marcar libros.
+    """
+    category = {'name': '', 'id': ''}
+    category['name'] = name
+    category['id'] = id
+    return category
 
 
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
-""" 
-def compareauthors(authorname1, author):
-    if (authorname1.lower() in author['name'].lower()):
+
+
+def compare_channel_titles(channel_title_name, channel):
+    if (channel_title_name.lower() in channel['name'].lower()):
         return 0
     return -1
+
+
+def compare_likes(video1, video2):
+    return (float(video1['likes']) > float(video2['likes']))
+
+
+def compare_categories(name, categories):
+    return (name == video['category'])
+
+
+# Funciones de ordenamiento
 """
+def sortBooks(catalog):
+    sa.sort(catalog['books'], compareratings)
+"""
+
+
 # Funciones de ordenamiento
