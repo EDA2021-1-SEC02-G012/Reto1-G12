@@ -39,22 +39,28 @@ def printMenu():
     print("\n_______________________________________________________________")
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Conocer cuáles son los n videos con más views")
-    print("que son tendencia en un determinado país, dada una categoría específica.")
-    print("3- Conocer cuál es el video que más días ha sido")
-    print("trending para un país específico.")
-    print("4- Cuál es el video que más días ha sido")
-    print("trending para una categoría específica.")
-    print("5- Conocer cuáles son los n videos diferentes con")
-    print("más likes en un país con un tag específico.")
+    print(
+        "2- Conocer cuáles son los n videos con más views que son "
+        + " tendencia en un país, dada una categoría específica."
+        )
+    print(
+        "3- Conocer cuál es el video que más días ha sido" +
+        " trending para un país específico.")
+    print(
+        "4- Cuál es el video que más días ha sido" +
+        " trending para una categoría específica.")
+    print(
+        "5- Conocer cuáles son los n videos diferentes con" +
+        "más likes en un país con un tag específico.")
     print("0- Salir")
 
 
-def initCatalog():
+def initCatalog(list_type):
     """
     Inicializa el catalogo de libros
     """
-    return controller.initCatalog()
+    return controller.initCatalog(list_type
+    )
 
 
 def loadData(catalog):
@@ -64,22 +70,56 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 
+def listType() -> str:
+    print("\n1- Lista tipo ARRAY_LIST")
+    print("2- Lista tipo SINGLE_LINKED")
+    operating = True
+
+    while operating:
+        list_type = int(input(
+            'Seleccione el tipo de representación de la lista en memoria: '))
+
+        if list_type == 1:
+            adt = 'ARRAY_LIST'
+            operating = False
+            break
+        elif list_type == 2:
+            adt = 'SINGLE_LINKED'
+            operating = False
+            break
+        else:
+            print("Ingrese un número válido.")
+
+    return adt
+
+
 """
 Menu principal
 """
+
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        x = listType()
         print("\nCargando información de los archivos ....")
-        catalog = initCatalog()
+        catalog = initCatalog(x)
         loadData(catalog)
-        primervideo = {'Título: ' : str((lt.firstElement(catalog['video'])).get('title')), 'Nombre del canal: ' : str((lt.firstElement(catalog['video'])).get('channel_title')), 'Fue tendencia el día: ' : str((lt.firstElement(catalog['video'])).get('trending_date')), 'Visitas: ' : str((lt.firstElement(catalog['video'])).get('views')), 'Likes: ' : str((lt.firstElement(catalog['video'])).get('likes')), 'Dislikes: ' : str((lt.firstElement(catalog['video'])).get('dislikes'))}
+
+        first = lt.firstElement(catalog['video'])
+        primervideo = {
+            'Título: ': str(first.get('title')),
+            'Nombre del canal: ': str(first.get('channel_title')),
+            'Fue tendencia el día: ': str(first.get('trending_date')),
+            'Visitas: ': str(first.get('views')),
+            'Likes: ': str(first.get('likes')),
+            'Dislikes: ': str(first.get('dislikes'))}
+
         print('\nVideos cargados: ' + str(lt.size(catalog['video'])))
         print('\nDatos del primer video: ')
         for i in primervideo.keys():
             print(str(i) + str(primervideo.get(i)))
-        print('\nCategorías cargadas: ' + str(lt.size(catalog['c_id'])))
+        print('\nCategorías cargadas: ' + str(lt.size(catalog['category'])))
 
     elif int(inputs[0]) == 2:
         pass

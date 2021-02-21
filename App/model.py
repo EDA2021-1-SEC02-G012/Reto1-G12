@@ -38,21 +38,23 @@ listas, una para los videos, otra para las categorias de los mismos.
 # Construccion de modelos
 
 
-def newCatalog():
+def newCatalog(list_type):
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
     todos los videos, adicionalmente, crea una lista vacia para los categorias.
     """
     catalog = {'video': None,
                'categories': None,
-               'country': None
+               'country': None,
+               'category': None
                }
 
-    catalog['video'] = lt.newList()
-    catalog['categories'] = lt.newList('SINGLE_LINKED')
-    catalog['country'] = lt.newList('SINGLE_LINKED')
-    catalog['c_id'] = lt.newList('SINGLE_LINKED')
+    catalog['video'] = lt.newList(list_type)
+    catalog['categories'] = lt.newList(list_type)
+    catalog['country'] = lt.newList(list_type)
+    catalog['category'] = lt.newList(list_type)
     return catalog
+
 
 # Funciones para agregar informacion al catalogo
 
@@ -81,10 +83,11 @@ def addCategory(catalog, categories):
     Adiciona una categoría a la lista de categorías
     """
     c = newCategory(categories['name'], categories['id'])
-    lt.addLast(catalog['c_id'], c)
+    lt.addLast(catalog['category'], c)
 
 
 # Funciones para creacion de datos
+
 
 def newCountry(country_name):
     """
@@ -110,8 +113,23 @@ def newCategory(name, c_id):
 
 # Funciones de consulta
 
+
+def getVideosByCountryAndCategory(category_name, country):
+    return
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-# Funciones de ordenamiento
+
 
 # Funciones de ordenamiento
+
+def cmpVideosByViews(video1, video2) -> bool:
+    """
+    Devuelve verdadero (True) si los 'views' de video1 son menores que los
+    del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'views'
+    video2: informacion del segundo video que incluye su valor 'views'
+    """
+    return True
