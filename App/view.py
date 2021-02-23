@@ -116,7 +116,7 @@ def sort_type() -> str:
             break
         else:
             print("Ingrese un número válido.")
-    
+
     return sort_type_str
 
 
@@ -128,11 +128,11 @@ def printResults(ord_videos, sample=10):
         while i <= sample:
             video = lt.getElement(ord_videos, i)
             print(
-                'Título: ' + str(video.get('title')) + ", "
-                'Nombre del canal: ' + str(video.get('channel_title')) + ", "
-                'Fue tendencia el día: ' + str(video.get('trending_date')) + ", "
-                'Visitas: ' + str(video.get('views')) + ", "
-                'Likes: ' + str(video.get('likes')) + ", "
+                'Título: ' + str(video.get('title')) + ", " +
+                'Nombre del canal: ' + str(video.get('channel_title')) + ", " +
+                'Fue tendencia el día: ' + str(video.get('trending_date'))
+                + ", " + 'Visitas: ' + str(video.get('views')) + ", " +
+                'Likes: ' + str(video.get('likes')) + ", " +
                 'Dislikes: ' + str(video.get('dislikes')))
             i += 1
 

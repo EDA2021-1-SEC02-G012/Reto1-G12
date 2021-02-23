@@ -69,6 +69,7 @@ def addVideo(catalog, video):
         addVideoCountry(catalog, video_name.strip(), video)'''
 
 
+'''
 def addVideoCountry(catalog, country_name, video):
     countries = catalog['country']
     poscountry = lt.isPresent(countries, country_name)
@@ -77,7 +78,7 @@ def addVideoCountry(catalog, country_name, video):
     else:
         country = newCountry(country_name)
         lt.addLast(countries, country)
-    lt.addLast(country['video'], video)
+    lt.addLast(country['video'], video)'''
 
 
 def addCategory(catalog, categories):
@@ -90,17 +91,19 @@ def addCategory(catalog, categories):
 
 # Funciones para creacion de datos
 
-
+'''
 def newCountry(country_name):
     """
     Crea una nueva estructura para modelar los videos de
-    a partir de los paises title, channel_title, trending_date, country, views, likes, dislikes
-    "title": "", "channel_title": "", "trending_date": "", "views": 0, "likes": 0, "dislikes": 0
+    a partir de los paises title, channel_title, trending_date, country, views,
+    likes, dislikes"title": "", "channel_title": "", "trending_date": "",
+    "views": 0, "likes": 0, "dislikes": 0
     """
     country = {'country_name': "", "video": None}
     country['country_name'] = country_name
     country['video'] = lt.newList('ARRAY_LIST')
     return country
+    '''
 
 
 def newCategory(name, c_id):

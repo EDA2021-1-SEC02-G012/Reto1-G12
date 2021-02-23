@@ -70,7 +70,8 @@ def loadCategories(catalog):
     categorias
     """
     categoriesfile = cf.data_dir + 'videos/category-id.csv'
-    input_file = csv.DictReader(open(categoriesfile, encoding='utf-8'), delimiter='\t')
+    input_file = csv.DictReader(
+        open(categoriesfile, encoding='utf-8'), delimiter='\t')
     for category in input_file:
         model.addCategory(catalog, category)
 
