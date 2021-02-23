@@ -76,4 +76,12 @@ def loadCategories(catalog):
 
 # Funciones de ordenamiento
 
+
+def sortVideos(catalog, size, sort_type):
+    """
+    Ordena los libros por views
+    """
+    return model.sortVideos(catalog, size, sort_type)
+
+
 # Funciones de consulta sobre el catálogo

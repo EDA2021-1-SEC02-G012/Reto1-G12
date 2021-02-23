@@ -27,7 +27,10 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-# from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as iss
+from DISClib.Algorithms.Sorting import selectionsort as ss
+from DISClib.Algorithms.Sorting import shellsort as sa
+import time
 assert cf
 
 """
@@ -44,13 +47,11 @@ def newCatalog(list_type):
     todos los videos, adicionalmente, crea una lista vacia para los categorias.
     """
     catalog = {'video': None,
-               'categories': None,
                'country': None,
                'category': None
                }
 
     catalog['video'] = lt.newList(list_type)
-    catalog['categories'] = lt.newList(list_type)
     catalog['country'] = lt.newList(list_type)
     catalog['category'] = lt.newList(list_type)
     return catalog
@@ -62,9 +63,10 @@ def newCatalog(list_type):
 def addVideo(catalog, video):
     # Se adiciona el video a la lista de videos
     lt.addLast(catalog['video'], video)
+    '''
     countries = video['country'].split(",")
     for video_name in countries:
-        addVideoCountry(catalog, video_name.strip(), video)
+        addVideoCountry(catalog, video_name.strip(), video)'''
 
 
 def addVideoCountry(catalog, country_name, video):
@@ -114,15 +116,8 @@ def newCategory(name, c_id):
 # Funciones de consulta
 
 
-def getVideosByCountryAndCategory(category_name, country):
-    return
-
-
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-
-
-# Funciones de ordenamiento
 
 def cmpVideosByViews(video1, video2) -> bool:
     """
@@ -132,4 +127,22 @@ def cmpVideosByViews(video1, video2) -> bool:
     video1: informacion del primer video que incluye su valor 'views'
     video2: informacion del segundo video que incluye su valor 'views'
     """
-    return True
+    return (float(video1['views']) > float(video2['views']))
+
+
+# Funciones de ordenamiento
+
+
+def sortVideos(catalog, size, sort_type):
+    sub_list = lt.subList(catalog['video'], 0, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+    if sort_type == "iss":
+        sorted_list = iss.sort(sub_list, cmpVideosByViews)
+    elif sort_type == "ss":
+        sorted_list = ss.sort(sub_list, cmpVideosByViews)
+    elif sort_type == "sa":
+        sorted_list = sa.sort(sub_list, cmpVideosByViews)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list

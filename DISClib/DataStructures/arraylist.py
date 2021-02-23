@@ -429,8 +429,8 @@ def compareElements(lst, element, info):
 
 
 def defaultfunction(id1, id2):
-    if id1 > id2.get('country_name'):
+    if id1 > id2:
         return 1
-    elif id1 < id2.get('country_name'):
+    elif id1 < id2:
         return -1
     return 0

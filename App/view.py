@@ -92,6 +92,51 @@ def listType() -> str:
     return adt
 
 
+def sort_type() -> str:
+    print("\n1- Ordenamiento tipo insertionsort")
+    print("2- Ordenamiento tipo selectionsort")
+    print("3- Ordenamiento tipo shellsort")
+
+    operating = True
+    while operating:
+        t = int(input(
+            'Seleccione el tipo de ordenamiento: '))
+
+        if t == 1:
+            sort_type_str = "iss"
+            operating = False
+            break
+        elif t == 2:
+            sort_type_str = "ss"
+            operating = False
+            break
+        elif t == 3:
+            sort_type_str = "sa"
+            operating = False
+            break
+        else:
+            print("Ingrese un número válido.")
+    
+    return sort_type_str
+
+
+def printResults(ord_videos, sample=10):
+    size = lt.size(ord_videos)
+    if size > sample:
+        print("Los primeros ", sample, " videos ordenados son:")
+        i = 1
+        while i <= sample:
+            video = lt.getElement(ord_videos, i)
+            print(
+                'Título: ' + str(video.get('title')) + ", "
+                'Nombre del canal: ' + str(video.get('channel_title')) + ", "
+                'Fue tendencia el día: ' + str(video.get('trending_date')) + ", "
+                'Visitas: ' + str(video.get('views')) + ", "
+                'Likes: ' + str(video.get('likes')) + ", "
+                'Dislikes: ' + str(video.get('dislikes')))
+            i += 1
+
+
 """
 Menu principal
 """
@@ -121,7 +166,12 @@ while True:
         print('\nCategorías cargadas: ' + str(lt.size(catalog['category'])))
 
     elif int(inputs[0]) == 2:
-        pass
+        size = input("Indique tamaño de la muestra: ")
+        sort_type_str = sort_type()
+        result = controller.sortVideos(catalog, int(size), sort_type_str)
+        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
+                                          str(result[0]))
+        printResults(result[1])
 
     elif int(inputs[0]) == 3:
         pass
