@@ -59,8 +59,7 @@ def initCatalog(list_type):
     """
     Inicializa el catalogo de libros
     """
-    return controller.initCatalog(list_type
-    )
+    return controller.initCatalog(list_type)
 
 
 def loadData(catalog):
