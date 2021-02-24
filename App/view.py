@@ -71,7 +71,7 @@ def loadData(catalog):
 
 def listType() -> str:
     print("\n1- Lista tipo ARRAY_LIST")
-    print("2- Lista tipo SINGLE_LINKED")
+    print("2- Lista tipo LINKED_LIST")
     operating = True
 
     while operating:
@@ -83,7 +83,7 @@ def listType() -> str:
             operating = False
             break
         elif list_type == 2:
-            adt = 'SINGLE_LINKED'
+            adt = 'LINKED_LIST'
             operating = False
             break
         else:
