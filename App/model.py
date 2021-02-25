@@ -54,8 +54,8 @@ def newCatalog(list_type):
                'category': None
                }
 
-    catalog['video'] = lt.newList(list_type)
-    catalog['country'] = lt.newList(list_type)
+    catalog['video'] = lt.newList(list_type, comparevideoid)
+    catalog['country'] = lt.newList(list_type) #Vale dijo que no
     catalog['category'] = lt.newList(list_type)
     return catalog
 
@@ -123,6 +123,10 @@ def newCategory(name, c_id):
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+
+
+def comparevideoid(videoid, video):
+    return (videoid == video['video_id'])
 
 
 def cmpVideosByViews(video1, video2) -> bool:
