@@ -55,7 +55,7 @@ def newCatalog(list_type):
                }
 
     catalog['video'] = lt.newList(list_type, comparevideoid)
-    catalog['country'] = lt.newList(list_type) #Vale dijo que no
+    catalog['country'] = lt.newList(list_type)  # Vale dijo que no
     catalog['category'] = lt.newList(list_type)
     return catalog
 

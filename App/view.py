@@ -53,7 +53,7 @@ def printMenu():
         " trending para una categoría específica.")
     print(
         "5- Conocer cuáles son los n videos diferentes con" +
-        "más likes en un país con un tag específico.")
+        " más likes en un país con un tag específico.")
     print("0- Salir")
 
 
