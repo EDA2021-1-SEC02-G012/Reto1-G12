@@ -177,6 +177,16 @@ while True:
         for i in primervideo.keys():
             print(str(i) + str(primervideo.get(i)))
         print('\nCategorías cargadas: ' + str(lt.size(catalog['category'])))
+        print('Países cargados: ' + str(lt.size(catalog['country'])))
+        lista = ''
+        for i in range(0, lt.size(catalog['country'])):
+            element = lt.getElement(catalog['country'], i)
+            pais = str(element.get('country_name'))
+            if i < (lt.size(catalog['country'])-1):
+                lista += (pais + ", ")
+            else:
+                lista += pais
+        print(lista)
 
     elif int(inputs[0]) == 2:
         size = input("Indique tamaño de la muestra: ")

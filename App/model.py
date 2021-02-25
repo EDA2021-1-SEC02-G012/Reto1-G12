@@ -55,7 +55,8 @@ def newCatalog(list_type):
                }
 
     catalog['video'] = lt.newList(list_type, comparevideoid)
-    catalog['country'] = lt.newList(list_type)  # Vale dijo que no
+    catalog['country'] = lt.newList(list_type, comparecountries)
+    # Vale dijo que no
     catalog['category'] = lt.newList(list_type)
     return catalog
 
@@ -66,13 +67,12 @@ def newCatalog(list_type):
 def addVideo(catalog, video):
     # Se adiciona el video a la lista de videos
     lt.addLast(catalog['video'], video)
-    '''
+
     countries = video['country'].split(",")
     for video_name in countries:
-        addVideoCountry(catalog, video_name.strip(), video)'''
+        addVideoCountry(catalog, video_name.strip(), video)
 
 
-'''
 def addVideoCountry(catalog, country_name, video):
     countries = catalog['country']
     poscountry = lt.isPresent(countries, country_name)
@@ -81,7 +81,7 @@ def addVideoCountry(catalog, country_name, video):
     else:
         country = newCountry(country_name)
         lt.addLast(countries, country)
-    lt.addLast(country['video'], video)'''
+    lt.addLast(country['video'], video)
 
 
 def addCategory(catalog, categories):
@@ -94,19 +94,16 @@ def addCategory(catalog, categories):
 
 # Funciones para creacion de datos
 
-'''
+
 def newCountry(country_name):
     """
     Crea una nueva estructura para modelar los videos de
-    a partir de los paises title, channel_title, trending_date, country, views,
-    likes, dislikes"title": "", "channel_title": "", "trending_date": "",
-    "views": 0, "likes": 0, "dislikes": 0
+    a partir de los paises
     """
     country = {'country_name': "", "video": None}
     country['country_name'] = country_name
     country['video'] = lt.newList('ARRAY_LIST')
     return country
-    '''
 
 
 def newCategory(name, c_id):
@@ -127,6 +124,12 @@ def newCategory(name, c_id):
 
 def comparevideoid(videoid, video):
     return (videoid == video['video_id'])
+
+
+def comparecountries(country_name, countries):
+    if (country_name.lower() in countries['country_name'].lower()):
+        return 0
+    return -1
 
 
 def cmpVideosByViews(video1, video2) -> bool:
