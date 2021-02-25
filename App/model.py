@@ -30,6 +30,9 @@ from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import insertionsort as iss
 from DISClib.Algorithms.Sorting import selectionsort as ss
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as ms
+from DISClib.Algorithms.Sorting import quicksort as qs
+
 import time
 assert cf
 
@@ -146,6 +149,11 @@ def sortVideos(catalog, size, sort_type):
         sorted_list = ss.sort(sub_list, cmpVideosByViews)
     elif sort_type == "sa":
         sorted_list = sa.sort(sub_list, cmpVideosByViews)
+    elif sort_type == "ms":
+        sorted_list = ms.sort(sub_list, cmpVideosByViews)
+    elif sort_type == "qs":
+        sorted_list = qs.sort(sub_list, cmpVideosByViews)
+
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list

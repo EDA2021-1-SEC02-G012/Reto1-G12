@@ -26,6 +26,8 @@ import controller
 from DISClib.ADT import list as lt
 assert cf
 
+default_limit = 1000
+sys.setrecursionlimit(default_limit*10)
 
 """
 La vista se encarga de la interacción con el usuario
@@ -96,6 +98,8 @@ def sort_type() -> str:
     print("\n1- Ordenamiento tipo insertionsort")
     print("2- Ordenamiento tipo selectionsort")
     print("3- Ordenamiento tipo shellsort")
+    print("4- Ordenamiento tipo mergesort")
+    print("5- Ordenamiento tipo quicksort")
 
     operating = True
     while operating:
@@ -114,6 +118,15 @@ def sort_type() -> str:
             sort_type_str = "sa"
             operating = False
             break
+        elif t == 4:
+            sort_type_str = "ms"
+            operating = False
+            break
+        elif t == 5:
+            sort_type_str = "qs"
+            operating = False
+            break
+
         else:
             print("Ingrese un número válido.")
 
