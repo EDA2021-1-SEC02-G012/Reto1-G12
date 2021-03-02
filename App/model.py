@@ -151,7 +151,7 @@ def getVideosByCategory(videos, category):
     return lista
 
 
-def getMostTrendingDays(videos):
+def getMostTrendingDaysByDifference(videos):
     ids = {}
     i = 1
 
@@ -177,6 +177,58 @@ def getMostTrendingDays(videos):
             result = lt.getElement(videos, j)
             encontro = False
 
+        j += 1
+
+    return result, ids[video]
+
+
+def getMostTrendingDaysByID(videos):
+    ids = {}
+    i = 1
+
+    while i <= lt.size(videos):
+        video_id = lt.getElement(videos, i).get('video_id')
+
+        if video_id in ids:
+            ids[video_id] += 1
+        else:
+            ids[video_id] = 1
+        i += 1
+
+    video = max(ids, key=ids.get)
+    encontro = True
+    j = 1
+
+    while encontro and j <= lt.size(videos):
+        if lt.getElement(videos, j).get('video_id') == video:
+            result = lt.getElement(videos, j)
+            encontro = False
+        j += 1
+
+    return result, ids[video]
+
+
+def getMostTrendingDaysByTitle(videos):
+    ids = {}
+    i = 1
+
+    while i <= lt.size(videos):
+        video_id = lt.getElement(videos, i).get('title')
+
+        if video_id in ids:
+            ids[video_id] += 1
+        else:
+            ids[video_id] = 1
+        i += 1
+
+    video = max(ids, key=ids.get)
+    encontro = True
+    j = 1
+
+    while encontro and j <= lt.size(videos):
+        if lt.getElement(videos, j).get('title') == video:
+            result = lt.getElement(videos, j)
+            encontro = False
         j += 1
 
     return result, ids[video]

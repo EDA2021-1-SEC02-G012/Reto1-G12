@@ -96,4 +96,4 @@ def getVideosByCountry(catalog, country):
 
 
 def getMostTrendingDays(catalog):
-    return model.getMostTrendingDays(catalog)
+    return model.getMostTrendingDaysByTitle(catalog)
