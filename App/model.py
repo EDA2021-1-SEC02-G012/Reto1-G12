@@ -56,7 +56,6 @@ def newCatalog(list_type):
 
     catalog['video'] = lt.newList(list_type, comparevideoid)
     catalog['country'] = lt.newList(list_type, comparecountries)
-    # Vale dijo que no
     catalog['category'] = lt.newList(list_type)
     return catalog
 
@@ -118,12 +117,36 @@ def newCategory(name, c_id):
 
 # Funciones de consulta
 
+def getVideosByCategoryAndCountry(catalog, category, country):
+    videos = lt.newList()
+    info = catalog['country'].get('country_name')
+    if info == country:
+        pos = lt.isPresent(info, category)
+        if pos > 0:
+            for i in range(pos, lt.size(info)):
+                lt.addLast(info)
+    return videos
+
+
+def getVideosByCategoryAndCountry2(catalog, category, country):
+    videos = lt.newList()
+    info = catalog['country'].get('country_name')
+    if info == country:
+        for i in range(1, lt.size(info)):
+            if info.get('category_id') == category:
+                lt.addLast(info)
+    return videos
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
 def comparevideoid(videoid, video):
     return (videoid == video['video_id'])
+
+
+def cmpVideosByCategory(category1, category2):
+    return (float(category1['category_id']) > float(category2['category_id']))
 
 
 def comparecountries(country_name, countries):
@@ -146,20 +169,35 @@ def cmpVideosByViews(video1, video2) -> bool:
 # Funciones de ordenamiento
 
 
-def sortVideos(catalog, size, sort_type):
+def sortVideos(catalog, size, sort_type, cmp):
+    # Podemos remover los ifs
     sub_list = lt.subList(catalog['video'], 0, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
-    if sort_type == "iss":
-        sorted_list = iss.sort(sub_list, cmpVideosByViews)
-    elif sort_type == "ss":
-        sorted_list = ss.sort(sub_list, cmpVideosByViews)
-    elif sort_type == "sa":
-        sorted_list = sa.sort(sub_list, cmpVideosByViews)
-    elif sort_type == "ms":
-        sorted_list = ms.sort(sub_list, cmpVideosByViews)
-    elif sort_type == "qs":
-        sorted_list = qs.sort(sub_list, cmpVideosByViews)
+
+    if cmp == 'cmpVideosByViews':
+        if sort_type == "iss":
+            sorted_list = iss.sort(sub_list, cmpVideosByViews)
+        elif sort_type == "ss":
+            sorted_list = ss.sort(sub_list, cmpVideosByViews)
+        elif sort_type == "sa":
+            sorted_list = sa.sort(sub_list, cmpVideosByViews)
+        elif sort_type == "ms":
+            sorted_list = ms.sort(sub_list, cmpVideosByViews)
+        elif sort_type == "qs":
+            sorted_list = qs.sort(sub_list, cmpVideosByViews)
+
+    elif cmp == "cmpVideosByCategory":
+        if sort_type == "iss":
+            sorted_list = iss.sort(sub_list, cmpVideosByCategory)
+        elif sort_type == "ss":
+            sorted_list = ss.sort(sub_list, cmpVideosByCategory)
+        elif sort_type == "sa":
+            sorted_list = sa.sort(sub_list, cmpVideosByCategory)
+        elif sort_type == "ms":
+            sorted_list = ms.sort(sub_list, cmpVideosByCategory)
+        elif sort_type == "qs":
+            sorted_list = qs.sort(sub_list, cmpVideosByCategory)
 
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000

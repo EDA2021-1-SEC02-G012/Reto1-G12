@@ -133,7 +133,7 @@ def sort_type() -> str:
     return sort_type_str
 
 
-def printResults(ord_videos, sample=10):
+def printResults(ord_videos, sample):
     size = lt.size(ord_videos)
     if size > sample:
         print("Los primeros ", sample, " videos ordenados son:")
@@ -146,7 +146,8 @@ def printResults(ord_videos, sample=10):
                 'Fue tendencia el día: ' + str(video.get('trending_date'))
                 + ", " + 'Visitas: ' + str(video.get('views')) + ", " +
                 'Likes: ' + str(video.get('likes')) + ", " +
-                'Dislikes: ' + str(video.get('dislikes')))
+                'Dislikes: ' + str(video.get('dislikes')) +
+                'Fecha de publicación: ' + str(video.get('dislikes')))
             i += 1
 
 
@@ -158,7 +159,7 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        x = listType()
+        x = 'ARRAY_LIST'
         print("\nCargando información de los archivos ....")
         catalog = initCatalog(x)
         loadData(catalog)
@@ -189,12 +190,22 @@ while True:
         print(lista)
 
     elif int(inputs[0]) == 2:
-        size = input("Indique tamaño de la muestra: ")
-        sort_type_str = sort_type()
-        result = controller.sortVideos(catalog, int(size), sort_type_str)
-        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
-                                          str(result[0]))
-        printResults(result[1])
+        pais = input("Ingrese el país de referencia: ")
+        categoria = input('Ingrese la categoría de referencia: ')
+        n = input("Ingrese el número de videos que desea imprimir: ")
+
+        result1 = controller.getVideosByCategoryAndCountry(catalog, categoria, pais)
+
+        result = controller.sortVideos(
+            result1, lt.size(result1), 'ms', 'cmpVideosByViews')
+
+        print(
+            "Para la muestra de",
+            lt.size(catalog['country'].get(pais)),
+            "elementos, el tiempo (mseg) es:",
+            str(result[0]))
+
+        printResults(result[1], n)
 
     elif int(inputs[0]) == 3:
         pass
