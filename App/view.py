@@ -146,7 +146,7 @@ def printResults(ord_videos, sample):
                 'Fue tendencia el día: ' + str(video.get('trending_date'))
                 + ", " + 'Visitas: ' + str(video.get('views')) + ", " +
                 'Likes: ' + str(video.get('likes')) + ", " +
-                'Dislikes: ' + str(video.get('dislikes')) +
+                'Dislikes: ' + str(video.get('dislikes')) + ", " +
                 'Fecha de publicación: ' + str(video.get('dislikes')))
             i += 1
 
@@ -191,17 +191,18 @@ while True:
 
     elif int(inputs[0]) == 2:
         pais = input("Ingrese el país de referencia: ")
-        categoria = input('Ingrese la categoría de referencia: ')
-        n = input("Ingrese el número de videos que desea imprimir: ")
+        categoria = int(input('Ingrese la categoría de referencia: '))
+        n = int(input("Ingrese el número de videos que desea imprimir: "))
 
-        result1 = controller.getVideosByCategoryAndCountry(catalog, categoria, pais)
+        result1 = controller.getVideosByCategoryAndCountry(
+            catalog['country'], categoria, pais)
 
         result = controller.sortVideos(
             result1, lt.size(result1), 'ms', 'cmpVideosByViews')
 
         print(
             "Para la muestra de",
-            lt.size(catalog['country'].get(pais)),
+            lt.size(catalog['country']),
             "elementos, el tiempo (mseg) es:",
             str(result[0]))
 

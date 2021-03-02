@@ -117,25 +117,38 @@ def newCategory(name, c_id):
 
 # Funciones de consulta
 
+
 def getVideosByCategoryAndCountry(catalog, category, country):
-    videos = lt.newList()
-    info = catalog['country'].get('country_name')
-    if info == country:
-        pos = lt.isPresent(info, category)
-        if pos > 0:
-            for i in range(pos, lt.size(info)):
-                lt.addLast(info)
-    return videos
+    sublist = getVideosByCountry(catalog, country)
+    sublist2 = getVideosByCategory(sublist, category)
+    return sublist2
 
 
-def getVideosByCategoryAndCountry2(catalog, category, country):
-    videos = lt.newList()
-    info = catalog['country'].get('country_name')
-    if info == country:
-        for i in range(1, lt.size(info)):
-            if info.get('category_id') == category:
-                lt.addLast(info)
-    return videos
+def getVideosByCountry(catalog, country):
+    operating = True
+    i = 1
+    while operating and i <= lt.size(catalog):
+        pais = lt.getElement(catalog, i)
+        nombre_pais = pais.get('country_name')
+        if nombre_pais == country:
+            operating = False
+        else:
+            i += 1
+
+    return pais['video']
+
+
+def getVideosByCategory(videos, category):
+    lista = lt.newList('ARRAY_LIST', cmpVideosByViews)
+    i = 1
+    while i <= lt.size(videos):
+        c_id = int(lt.getElement(videos, i).get('category_id'))
+        if category == c_id:
+            element = lt.getElement(videos, i)
+            lt.addLast(lista, element)
+        i += 1
+
+    return lista
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
@@ -171,7 +184,7 @@ def cmpVideosByViews(video1, video2) -> bool:
 
 def sortVideos(catalog, size, sort_type, cmp):
     # Podemos remover los ifs
-    sub_list = lt.subList(catalog['video'], 0, size)
+    sub_list = lt.subList(catalog, 0, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
 
