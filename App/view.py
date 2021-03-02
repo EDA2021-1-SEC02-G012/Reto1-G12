@@ -209,7 +209,10 @@ while True:
         printResults(result[1], n)
 
     elif int(inputs[0]) == 3:
-        pass
+        pais = input("Ingrese el país de referencia: ")
+        lista = controller.getVideosByCountry(catalog['country'], pais)
+        dias_tendencia = controller.getMostTrendingDays(lista)
+        print(dias_tendencia)
 
     elif int(inputs[0]) == 4:
         pass

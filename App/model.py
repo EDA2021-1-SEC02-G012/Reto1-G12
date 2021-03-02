@@ -32,7 +32,7 @@ from DISClib.Algorithms.Sorting import selectionsort as ss
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import mergesort as ms
 from DISClib.Algorithms.Sorting import quicksort as qs
-
+from datetime import date
 import time
 assert cf
 
@@ -151,6 +151,37 @@ def getVideosByCategory(videos, category):
     return lista
 
 
+def getMostTrendingDays(videos):
+    ids = {}
+    i = 1
+
+    while i <= lt.size(videos):
+        video_title = lt.getElement(videos, i).get('title')
+
+        list1 = (lt.getElement(videos, i).get('trending_date')).split('.')
+        trendingdate = date(
+            (2000 + int(list1[0])), int(list1[2]), int(list1[1]))
+        list2 = (lt.getElement(videos, i).get('publish_time')).split('-')
+        list2_day = int(list2[2][0:2])
+        publishtime = date(int(list2[0]), int(list2[1]), list2_day)
+        diff = trendingdate - publishtime
+        ids[video_title] = diff.days
+        i += 1
+
+    video = max(ids, key=ids.get)
+    encontro = True
+    j = 1
+
+    while encontro and j <= lt.size(videos):
+        if lt.getElement(videos, j).get('title') == video:
+            result = lt.getElement(videos, j)
+            encontro = False
+
+        j += 1
+
+    return result, ids[video]
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
@@ -211,6 +242,18 @@ def sortVideos(catalog, size, sort_type, cmp):
             sorted_list = ms.sort(sub_list, cmpVideosByCategory)
         elif sort_type == "qs":
             sorted_list = qs.sort(sub_list, cmpVideosByCategory)
+
+    elif cmp == "comparevideoid":
+        if sort_type == "iss":
+            sorted_list = iss.sort(sub_list, comparevideoid)
+        elif sort_type == "ss":
+            sorted_list = ss.sort(sub_list, comparevideoid)
+        elif sort_type == "sa":
+            sorted_list = sa.sort(sub_list, comparevideoid)
+        elif sort_type == "ms":
+            sorted_list = ms.sort(sub_list, comparevideoid)
+        elif sort_type == "qs":
+            sorted_list = qs.sort(sub_list, comparevideoid)
 
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
