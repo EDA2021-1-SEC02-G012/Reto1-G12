@@ -214,9 +214,9 @@ while True:
 
     elif int(inputs[0]) == 4:
         categoria = int(input('Ingrese la categoría de referencia: '))
+        print (controller.getVideoMasTrendingByCategory(catalog["video"], categoria))
         
         
-        pass
 
     elif int(inputs[0]) == 5:
         pass

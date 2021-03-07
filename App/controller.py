@@ -90,5 +90,5 @@ def sortVideos(catalog, size, sort_type, cmp):
 def getVideosByCategoryAndCountry(catalog, category, country):
     return model.getVideosByCategoryAndCountry(catalog, category, country)
 
-def getVIdeoMasTrendingByCategory(catalog, category)
-return model.VideoMasTrendingCategoria(catalog, category)
+def getVideoMasTrendingByCategory(catalog, category):
+    return model.VideoMasTrendingCategoria(catalog, category)
