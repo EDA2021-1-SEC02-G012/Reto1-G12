@@ -151,6 +151,45 @@ def getVideosByCategory(videos, category):
     return lista
 
 
+def getMostTrendingDaysByTitle(videos):
+    ids = {}
+    i = 1
+
+    while i <= lt.size(videos):
+        video_id = lt.getElement(videos, i).get('title')
+
+        if video_id in ids:
+            ids[video_id][1] += 1
+        else:
+            ids[video_id] = (i, 1)
+        i += 1
+
+    video = max(ids, key=ids.get)
+    
+    datos_video = lt.getElement(videos, ids[video][0])
+
+    """
+    encontro = True
+    j = 1
+
+    while encontro and j <= lt.size(videos):
+        if lt.getElement(videos, j).get('title') == video:
+            result = lt.getElement(videos, j)
+            encontro = False
+        j += 1
+    
+    """
+    
+    return datos_video
+
+def VideoMasTrendingCategoria(catalog, categoria): 
+    sublist = getVideosByCategory(catalog, categoria)
+    VideoMasTrending = getMostTrendingDaysByTitle(sublist)
+    return VideoMasTrending
+ 
+
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 

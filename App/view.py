@@ -209,9 +209,13 @@ while True:
         printResults(result[1], n)
 
     elif int(inputs[0]) == 3:
+
         pass
 
     elif int(inputs[0]) == 4:
+        categoria = int(input('Ingrese la categoría de referencia: '))
+        
+        
         pass
 
     elif int(inputs[0]) == 5:
