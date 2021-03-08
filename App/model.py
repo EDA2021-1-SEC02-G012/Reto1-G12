@@ -151,13 +151,6 @@ def getVideosByCategory(videos, category):
     return lista
 
 
-def getMostTrendingDaysByTitle_vguayabo(videos):
-    ids = {}
-    pos = {}
-    i = 1
-
-    while i <= lt.size(videos):
-        video_id = lt.getElement(videos, i).get('title')
 def getMostTrendingDaysByDifference(videos):
     ids = {}
     i = 1
@@ -191,6 +184,7 @@ def getMostTrendingDaysByDifference(videos):
 
 def getMostTrendingDaysByID(videos):
     ids = {}
+    pos = {}
     i = 1
 
     while i <= lt.size(videos):
@@ -203,43 +197,10 @@ def getMostTrendingDaysByID(videos):
             pos[video_id] = i
         i += 1
 
-
     video = max(ids, key=ids.get)
-    result = lt.getElement(videos, pos[video]) 
-    
-    """
-        i += 1
-
-    video = max(ids, key=ids.get)
-    encontro = True
-    j = 1
-
-    while encontro and j <= lt.size(videos):
-        if lt.getElement(videos, j).get('title') == video:
-            result = lt.getElement(videos, j)
-            encontro = False
-        j += 1 
+    result = lt.getElement(videos, pos[video])
 
     """
-
-    return result, ids[video]
-
-def VideoMasTrendingCategoria(catalog, categoria): 
-    sublist = getVideosByCategory(catalog, categoria)
-    VideoMasTrending = getMostTrendingDaysByTitle(sublist)
-    return VideoMasTrending
-
-def getMostTrendingDaysByTitle(videos):
-    ids = {}
-    i = 1
-
-    while i <= lt.size(videos):
-        video_id = lt.getElement(videos, i).get('title')
-
-        if video_id in ids:
-            ids[video_id] += 1
-        else:
-            ids[video_id] = 1
         i += 1
 
     video = max(ids, key=ids.get)
@@ -251,6 +212,46 @@ def getMostTrendingDaysByTitle(videos):
             result = lt.getElement(videos, j)
             encontro = False
         j += 1
+
+    """
+
+    return result, ids[video]
+
+
+def VideoMasTrendingCategoria(catalog, categoria):
+    sublist = getVideosByCategory(catalog, categoria)
+    VideoMasTrending = getMostTrendingDaysByTitle(sublist)
+    return VideoMasTrending
+
+
+def getMostTrendingDaysByTitle(videos):
+    ids = {}
+    pos = {}
+    i = 1
+
+    while i <= lt.size(videos):
+        video_id = lt.getElement(videos, i).get('title')
+
+        if video_id in ids:
+            ids[video_id] += 1
+        else:
+            ids[video_id] = 1
+            pos[video_id] = i
+        i += 1
+
+    video = max(ids, key=ids.get)
+    result = lt.getElement(videos, pos[video])
+
+    '''
+    encontro = True
+    j = 1
+
+    while encontro and j <= lt.size(videos):
+        if lt.getElement(videos, j).get('title') == video:
+            result = lt.getElement(videos, j)
+            encontro = False
+        j += 1
+    '''
 
     return result, ids[video]
 
