@@ -151,8 +151,9 @@ def getVideosByCategory(videos, category):
     return lista
 
 
-def getMostTrendingDaysByTitle(videos):
+def getMostTrendingDaysByTitle_vguayabo(videos):
     ids = {}
+    pos = {}
     i = 1
 
     while i <= lt.size(videos):
@@ -162,12 +163,13 @@ def getMostTrendingDaysByTitle(videos):
             ids[video_id] += 1
         else:
             ids[video_id] = 1
+            pos[video_id] = i
         i += 1
 
 
     video = max(ids, key=ids.get)
-    """
-    datos_video = lt.getElement(videos, ids[video][0]) 
+    result = lt.getElement(videos, pos[video]) 
+    
     """
     encontro = True
     j = 1
@@ -177,6 +179,8 @@ def getMostTrendingDaysByTitle(videos):
             result = lt.getElement(videos, j)
             encontro = False
         j += 1 
+
+    """
     return result
 
 def VideoMasTrendingCategoria(catalog, categoria): 
