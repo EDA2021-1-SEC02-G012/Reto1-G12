@@ -91,6 +91,10 @@ def getVideosByCategoryAndCountry(catalog, category, country):
     return model.getVideosByCategoryAndCountry(catalog, category, country)
 
 
+def getVideosByCountryAndTag(catalog, tag, country):
+    return model.getVideosByCountryAndTag(catalog, tag, country)
+
+
 def getVideoMasTrendingByCategory(catalog, category):
     return model.VideoMasTrendingCategoria(catalog, category)
 

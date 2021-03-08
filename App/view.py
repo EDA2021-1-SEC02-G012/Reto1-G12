@@ -220,7 +220,23 @@ while True:
             catalog["video"], categoria))
 
     elif int(inputs[0]) == 5:
-        pass
+        pais = input("Ingrese el país de referencia: ")
+        tag = input('Ingrese el tag de referencia: ')
+        n = int(input("Ingrese el número de videos que desea imprimir: "))
+
+        result1 = controller.getVideosByCountryAndTag(
+            catalog['country'], tag, pais)
+
+        result = controller.sortVideos(
+            result1, lt.size(result1), 'ms', 'cmpVideosByViews')
+
+        print(
+            "Para la muestra de",
+            lt.size(catalog['country']),
+            "elementos, el tiempo (mseg) es:",
+            str(result[0]))
+
+        printResults(result[1], n)
 
     else:
         sys.exit(0)

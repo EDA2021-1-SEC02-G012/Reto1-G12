@@ -117,6 +117,11 @@ def newCategory(name, c_id):
 
 # Funciones de consulta
 
+def getVideosByCountryAndTag(catalog, tag, country):
+    sublist = getVideosByCountry(catalog, country)
+    sublist2 = getVideosByTag(sublist, tag)
+    return sublist2
+
 
 def getVideosByCategoryAndCountry(catalog, category, country):
     sublist = getVideosByCountry(catalog, country)
@@ -146,6 +151,23 @@ def getVideosByCategory(videos, category):
         if category == c_id:
             element = lt.getElement(videos, i)
             lt.addLast(lista, element)
+        i += 1
+
+    return lista
+
+
+def getVideosByTag(videos, tag):
+    lista = lt.newList('ARRAY_LIST', cmpVideosByViews)
+    i = 1
+    titles = lt.newList('ARRAY_LIST')
+    while i <= lt.size(videos):
+        c_tags = lt.getElement(videos, i).get('tags').split("|")
+        entrada = '"' + tag + '"'
+        lt.addLast(titles, (str(lt.getElement(videos, i).get('title'))))
+        if entrada in c_tags and lt.isPresent(titles, str(lt.getElement(videos, i).get('title'))) != 0:
+            element = lt.getElement(videos, i)
+            lt.addLast(lista, element)
+
         i += 1
 
     return lista
