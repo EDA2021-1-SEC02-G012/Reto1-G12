@@ -216,8 +216,16 @@ while True:
 
     elif int(inputs[0]) == 4:
         categoria = int(input('Ingrese la categoría de referencia: '))
-        print(controller.getVideoMasTrendingByCategory(
-            catalog["video"], categoria))
+        result1 = controller.getVideosByCategory(
+            catalog['video'], categoria)
+
+        result = controller.sortVideos(
+            result1, lt.size(result1), 'ms', 'cmpVideosByViews')[1]
+        
+        video_tendencia = controller.getMostTrendingDays(result)
+        print(video_tendencia)
+        
+        
 
     elif int(inputs[0]) == 5:
         pais = input("Ingrese el país de referencia: ")

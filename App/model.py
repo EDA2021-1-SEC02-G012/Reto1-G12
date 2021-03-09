@@ -161,7 +161,7 @@ def getVideosByTag(videos, tag):
     i = 1
 
     while i <= lt.size(videos):
-        c_tags = lt.getElement(videos, i).get('tags')'
+        c_tags = lt.getElement(videos, i).get('tags')
         lt.addLast(titles, (str(lt.getElement(videos, i).get('title'))))
         if tag in c_tags and lt.isPresent(titles, str(lt.getElement(videos, i).get('title'))) != 0:
             element = lt.getElement(videos, i)
@@ -174,15 +174,15 @@ def getVideosByTag(videos, tag):
 
 def VideoMasTrendingCategoria(catalog, categoria):
     sublist = getVideosByCategory(catalog, categoria)
-    sorted_list = sortVideos(sublist, lt.size(sublist), "ms", comparevideotitle )
+    sorted_list = sortVideos(sublist, lt.size(sublist), "ms", "cmpVideosByViews" )[1]
     VideoMasTrending = getMostTrendingDaysByTitle(sorted_list)
     return VideoMasTrending
 
 
 def getMostTrendingDaysByTitle(videos):
-    repetitions = lt.newList('ARRAY_LIST')
-    titles = lt.newList('ARRAY_LIST')
-    positions = lt.newList('ARRAY_LIST')
+    repetitions = lt.newList('ARRAY_LIST', cmpVideosByViews)
+    titles = lt.newList('ARRAY_LIST' )
+    positions = lt.newList('ARRAY_LIST', cmpVideosByViews)
 
     i = 1
     j = 1
@@ -193,7 +193,7 @@ def getMostTrendingDaysByTitle(videos):
     while i <= lt.size(videos):
         video_title = lt.getElement(videos, i).get('title')
 
-        if lt.isPresent(title, video_title) == 0:
+        if lt.isPresent(titles, video_title) == 0:
             lt.addLast(titles, video_title)
             lt.addLast(positions, i)
             lt.addLast(repetitions, repetition)
@@ -224,11 +224,6 @@ def comparevideoid(videoid, video):
     return (videoid == video['video_id'])
 
 
-def comparevideotitle(video_title, videos):
-    if (video_title.lower() in videos['title'].lower()):
-        return True
-    return False
-
 
 def cmpVideosByCategory(category1, category2):
     return (float(category1['category_id']) > float(category2['category_id']))
@@ -239,6 +234,10 @@ def comparecountries(country_name, countries):
         return 0
     return -1
 
+def comparetitles(title, titles):
+    if (title.lower() in titles['title'].lower()):
+        return 0
+    return -1
 
 def cmpVideosByViews(video1, video2) -> bool:
     """
@@ -271,43 +270,7 @@ def sortVideos(catalog, size, sort_type, cmp):
             sorted_list = ms.sort(sub_list, cmpVideosByViews)
         elif sort_type == "qs":
             sorted_list = qs.sort(sub_list, cmpVideosByViews)
-
-    elif cmp == "cmpVideosByCategory":
-        if sort_type == "iss":
-            sorted_list = iss.sort(sub_list, cmpVideosByCategory)
-        elif sort_type == "ss":
-            sorted_list = ss.sort(sub_list, cmpVideosByCategory)
-        elif sort_type == "sa":
-            sorted_list = sa.sort(sub_list, cmpVideosByCategory)
-        elif sort_type == "ms":
-            sorted_list = ms.sort(sub_list, cmpVideosByCategory)
-        elif sort_type == "qs":
-            sorted_list = qs.sort(sub_list, cmpVideosByCategory)
-
-    elif cmp == "comparevideoid":
-        if sort_type == "iss":
-            sorted_list = iss.sort(sub_list, comparevideoid)
-        elif sort_type == "ss":
-            sorted_list = ss.sort(sub_list, comparevideoid)
-        elif sort_type == "sa":
-            sorted_list = sa.sort(sub_list, comparevideoid)
-        elif sort_type == "ms":
-            sorted_list = ms.sort(sub_list, comparevideoid)
-        elif sort_type == "qs":
-            sorted_list = qs.sort(sub_list, comparevideoid)
-
-    elif cmp == "comparevideotitle":
-        if sort_type == "iss":
-            sorted_list = iss.sort(sub_list, comparevideotitle)
-        elif sort_type == "ss":
-            sorted_list = ss.sort(sub_list, comparevideotitle)
-        elif sort_type == "sa":
-            sorted_list = sa.sort(sub_list, comparevideotitle)
-        elif sort_type == "ms":
-            sorted_list = ms.sort(sub_list, comparevideotitle)
-        elif sort_type == "qs":
-            sorted_list = qs.sort(sub_list, comparevideotitle)
-
+ 
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
