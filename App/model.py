@@ -32,7 +32,6 @@ from DISClib.Algorithms.Sorting import selectionsort as ss
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import mergesort as ms
 from DISClib.Algorithms.Sorting import quicksort as qs
-from datetime import date
 import time
 assert cf
 
@@ -158,13 +157,13 @@ def getVideosByCategory(videos, category):
 
 def getVideosByTag(videos, tag):
     lista = lt.newList('ARRAY_LIST', cmpVideosByViews)
-    i = 1
     titles = lt.newList('ARRAY_LIST')
+    i = 1
+
     while i <= lt.size(videos):
-        c_tags = lt.getElement(videos, i).get('tags').split("|")
-        entrada = '"' + tag + '"'
+        c_tags = lt.getElement(videos, i).get('tags')'
         lt.addLast(titles, (str(lt.getElement(videos, i).get('title'))))
-        if entrada in c_tags and lt.isPresent(titles, str(lt.getElement(videos, i).get('title'))) != 0:
+        if tag in c_tags and lt.isPresent(titles, str(lt.getElement(videos, i).get('title'))) != 0:
             element = lt.getElement(videos, i)
             lt.addLast(lista, element)
 
@@ -173,109 +172,49 @@ def getVideosByTag(videos, tag):
     return lista
 
 
-def getMostTrendingDaysByDifference(videos):
-    ids = {}
-    i = 1
-
-    while i <= lt.size(videos):
-        video_title = lt.getElement(videos, i).get('title')
-
-        list1 = (lt.getElement(videos, i).get('trending_date')).split('.')
-        trendingdate = date(
-            (2000 + int(list1[0])), int(list1[2]), int(list1[1]))
-        list2 = (lt.getElement(videos, i).get('publish_time')).split('-')
-        list2_day = int(list2[2][0:2])
-        publishtime = date(int(list2[0]), int(list2[1]), list2_day)
-        diff = trendingdate - publishtime
-        ids[video_title] = diff.days
-        i += 1
-
-    video = max(ids, key=ids.get)
-    encontro = True
-    j = 1
-
-    while encontro and j <= lt.size(videos):
-        if lt.getElement(videos, j).get('title') == video:
-            result = lt.getElement(videos, j)
-            encontro = False
-
-        j += 1
-
-    return result, ids[video]
-
-
-def getMostTrendingDaysByID(videos):
-    ids = {}
-    pos = {}
-    i = 1
-
-    while i <= lt.size(videos):
-        video_id = lt.getElement(videos, i).get('video_id')
-
-        if video_id in ids:
-            ids[video_id] += 1
-        else:
-            ids[video_id] = 1
-            pos[video_id] = i
-        i += 1
-
-    video = max(ids, key=ids.get)
-    result = lt.getElement(videos, pos[video])
-
-    """
-        i += 1
-
-    video = max(ids, key=ids.get)
-    encontro = True
-    j = 1
-
-    while encontro and j <= lt.size(videos):
-        if lt.getElement(videos, j).get('title') == video:
-            result = lt.getElement(videos, j)
-            encontro = False
-        j += 1
-
-    """
-
-    return result, ids[video]
-
-
 def VideoMasTrendingCategoria(catalog, categoria):
     sublist = getVideosByCategory(catalog, categoria)
-    VideoMasTrending = getMostTrendingDaysByTitle(sublist)
+    sorted_list = sortVideos(sublist, lt.size(sublist), "ms", comparevideotitle )
+    VideoMasTrending = getMostTrendingDaysByTitle(sorted_list)
     return VideoMasTrending
 
 
 def getMostTrendingDaysByTitle(videos):
-    ids = {}
-    pos = {}
+    repetitions = lt.newList('ARRAY_LIST')
+    titles = lt.newList('ARRAY_LIST')
+    positions = lt.newList('ARRAY_LIST')
+
     i = 1
+    j = 1
+    k = 1
+    pos = 1
+    repetition = 1
 
     while i <= lt.size(videos):
-        video_id = lt.getElement(videos, i).get('title')
+        video_title = lt.getElement(videos, i).get('title')
 
-        if video_id in ids:
-            ids[video_id] += 1
+        if lt.isPresent(title, video_title) == 0:
+            lt.addLast(titles, video_title)
+            lt.addLast(positions, i)
+            lt.addLast(repetitions, repetition)
+            j += 1
+            repetition = 1
         else:
-            ids[video_id] = 1
-            pos[video_id] = i
+            repetition += 1
+
         i += 1
 
-    video = max(ids, key=ids.get)
-    result = lt.getElement(videos, pos[video])
+    while k <= lt.size(repetitions):
+        mayor = lt.getElement(repetitions, k)
+        k += 1
+        if mayor < lt.getElement(repetitions, k):
+            mayor = lt.getElement(repetitions, k)
+            pos = k
 
-    '''
-    encontro = True
-    j = 1
+    video_title_max_pos = lt.getElement(positions, k-1)
+    video_title_max = lt.getElement(videos, video_title_max_pos)
 
-    while encontro and j <= lt.size(videos):
-        if lt.getElement(videos, j).get('title') == video:
-            result = lt.getElement(videos, j)
-            encontro = False
-        j += 1
-    '''
-
-    return result, ids[video]
+    return video_title_max
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
@@ -283,6 +222,12 @@ def getMostTrendingDaysByTitle(videos):
 
 def comparevideoid(videoid, video):
     return (videoid == video['video_id'])
+
+
+def comparevideotitle(video_title, videos):
+    if (video_title.lower() in videos['title'].lower()):
+        return True
+    return False
 
 
 def cmpVideosByCategory(category1, category2):
@@ -350,6 +295,18 @@ def sortVideos(catalog, size, sort_type, cmp):
             sorted_list = ms.sort(sub_list, comparevideoid)
         elif sort_type == "qs":
             sorted_list = qs.sort(sub_list, comparevideoid)
+
+    elif cmp == "comparevideotitle":
+        if sort_type == "iss":
+            sorted_list = iss.sort(sub_list, comparevideotitle)
+        elif sort_type == "ss":
+            sorted_list = ss.sort(sub_list, comparevideotitle)
+        elif sort_type == "sa":
+            sorted_list = sa.sort(sub_list, comparevideotitle)
+        elif sort_type == "ms":
+            sorted_list = ms.sort(sub_list, comparevideotitle)
+        elif sort_type == "qs":
+            sorted_list = qs.sort(sub_list, comparevideotitle)
 
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
