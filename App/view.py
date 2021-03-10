@@ -35,7 +35,10 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
-
+"""
+La función de PrintMenu() Muestra las cinco opciones que tiene el 
+usuario para la busqueda de Videos según los requerimientos
+"""
 
 def printMenu():
     print("\n_______________________________________________________________")
@@ -57,80 +60,27 @@ def printMenu():
     print("0- Salir")
 
 
+"""
+La función initCatalog() Inicializa el catalogo de Videos
+retornando la función correspondiente del controller
+"""
 def initCatalog(list_type):
-    """
-    Inicializa el catalogo de libros
-    """
     return controller.initCatalog(list_type)
 
-
+"""
+La función LoadData() carga el catalogo de Videos en la 
+estructura de datos escogida retornando la función
+ correspondiente del controller
+"""
 def loadData(catalog):
-    """
-    Carga los libros en la estructura de datos
-    """
     controller.loadData(catalog)
 
 
-def listType() -> str:
-    print("\n1- Lista tipo ARRAY_LIST")
-    print("2- Lista tipo LINKED_LIST")
-    operating = True
-
-    while operating:
-        list_type = int(input(
-            'Seleccione el tipo de representación de la lista en memoria: '))
-
-        if list_type == 1:
-            adt = 'ARRAY_LIST'
-            operating = False
-            break
-        elif list_type == 2:
-            adt = 'LINKED_LIST'
-            operating = False
-            break
-        else:
-            print("Ingrese un número válido.")
-
-    return adt
-
-
-def sort_type() -> str:
-    print("\n1- Ordenamiento tipo insertionsort")
-    print("2- Ordenamiento tipo selectionsort")
-    print("3- Ordenamiento tipo shellsort")
-    print("4- Ordenamiento tipo mergesort")
-    print("5- Ordenamiento tipo quicksort")
-
-    operating = True
-    while operating:
-        t = int(input(
-            'Seleccione el tipo de ordenamiento: '))
-
-        if t == 1:
-            sort_type_str = "iss"
-            operating = False
-            break
-        elif t == 2:
-            sort_type_str = "ss"
-            operating = False
-            break
-        elif t == 3:
-            sort_type_str = "sa"
-            operating = False
-            break
-        elif t == 4:
-            sort_type_str = "ms"
-            operating = False
-            break
-        elif t == 5:
-            sort_type_str = "qs"
-            operating = False
-            break
-
-        else:
-            print("Ingrese un número válido.")
-
-    return sort_type_str
+""""
+La función de printResults() nos permite imprimir los videos según el tamaño del sample
+la usamos para la impresión del primer video en la carga del catálogo y para mostrar los 
+resultados del primer requerimiento 
+"""
 
 
 def printResults(ord_videos, sample):
@@ -175,9 +125,9 @@ Menu principal
 """
 
 while True:
-    printMenu()
+    printMenu() 
     inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 1:
+    if str(inputs[0]) == "1":
         x = 'ARRAY_LIST'
         print("\nCargando información de los archivos ....")
         catalog = initCatalog(x)
@@ -203,31 +153,36 @@ while True:
             element = lt.getElement(catalog['country'], i)
             pais = str(element.get('country_name'))
             if i < (lt.size(catalog['country'])-1):
-                lista += (pais + ", ")
+                lista += (pais.lower() + ", ")
             else:
-                lista += pais
+                lista += pais.lower()
         print(lista)
 
-    elif int(inputs[0]) == 2:
-        pais = input("Ingrese el país de referencia: ")
-        categoria = int(input('Ingrese la categoría de referencia: '))
-        n = int(input("Ingrese el número de videos que desea imprimir: "))
+    elif str(inputs[0]) == "2":
+        try: 
+            pais = input("Ingrese el país de referencia: ")
+            if pais.lower() in lista: 
 
-        result1 = controller.getVideosByCategoryAndCountry(
-            catalog['country'], categoria, pais)
+                categoria = int(input('Ingrese la categoría de referencia: '))
+                n = int(input("Ingrese el número de videos que desea imprimir: "))
 
-        result = controller.sortVideos(
-            result1, lt.size(result1), 'ms', 'cmpVideosByViews')
+                resultado = controller.Requerimiento_2(
+                    catalog['country'], categoria, pais)
+                print(
+                    "Para la muestra de",
+                    lt.size(catalog['country']),
+                    "elementos, el tiempo (mseg) es:",
+                    str(resultado[0]))
 
-        print(
-            "Para la muestra de",
-            lt.size(catalog['country']),
-            "elementos, el tiempo (mseg) es:",
-            str(result[0]))
+                printResults(resultado[1], n)
+            else: 
+                print("\n")
+                print("No se encontró el país")
+        except: 
+            print("\n")
+            print("Error en los parámetros")
 
-        printResults(result[1], n)
-
-    elif int(inputs[0]) == 3:
+    elif str(inputs[0]) == "3":
         pais = input("Ingrese el país de referencia: ")
         lista = controller.getVideosByCountry(catalog['country'], pais)
         result = controller.sortVideos(
@@ -235,7 +190,7 @@ while True:
         dias_tendencia = controller.getMostTrendingDays(result)
         print(dias_tendencia)
 
-    elif int(inputs[0]) == 4:
+    elif str(inputs[0]) == "4":
         categoria = int(input('Ingrese la categoría de referencia: '))
         result1 = controller.getVideosByCategory(
             catalog['video'], categoria)
@@ -245,22 +200,25 @@ while True:
         video_tendencia = controller.getMostTrendingDays(result)
         print(video_tendencia)
 
-    elif int(inputs[0]) == 5:
+    elif str(inputs[0]) == "5":
         pais = input("Ingrese el país de referencia: ")
         tag = input('Ingrese el tag de referencia: ')
         n = int(input("Ingrese el número de videos que desea imprimir: "))
 
         result = controller.getVideosByCountryAndTag(
-            catalog['country'], tag, pais)
+             catalog['country'], tag, pais)
 
         print(
-            "Para la muestra de",
+             "Para la muestra de",
             lt.size(catalog['country']),
             "elementos, el tiempo (mseg) es:",
             str(result[0]))
 
         printResultsv2(result[1], n)
-
-    else:
+    elif str(inputs[0]) == "0" :
         sys.exit(0)
-sys.exit(0)
+    else: 
+        print("\n")
+        print("Opción No Válida")            
+
+   

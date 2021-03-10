@@ -21,6 +21,7 @@
  """
 
 import config as cf
+from DISClib.ADT import list as lt
 import model
 import csv
 
@@ -95,8 +96,8 @@ def getVideosByCountryAndTag(catalog, tag, country):
     return model.getVideosByCountryAndTag(catalog, tag, country)
 
 
-def getVideoMasTrendingByCategory(catalog, category):
-    return model.VideoMasTrendingCategoria(catalog, category)
+def getVideoMasTrendingByCategory(catalog, categoria):
+    return model.VideoMasTrendingCategoria(catalog, categoria)
 
 
 def getVideosByCountry(catalog, country):
@@ -109,3 +110,14 @@ def getVideosByCategory(catalog, categoria):
 
 def getMostTrendingDays(catalog):
     return model.getMostTrendingDaysByTitle(catalog)
+
+
+#Funciones de los Requerimientos
+
+def Requerimiento_2(catalogo, categoria, pais): 
+    result1 = model.getVideosByCategoryAndCountry(
+                catalogo, categoria, pais)
+    result = model.sortVideos(
+                result1, lt.size(result1), 'ms', 'cmpVideosByViews')
+    return result
+
