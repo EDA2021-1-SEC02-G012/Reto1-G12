@@ -151,6 +151,25 @@ def printResults(ord_videos, sample):
             i += 1
 
 
+def printResultsv2(ord_videos, sample):
+    printlist = []
+    i = 1
+    while len(printlist) <= (sample - 1):
+        element = lt.getElement(ord_videos, i)
+        title = str(element.get('title'))
+        if title not in printlist:
+            printlist.append(title)
+            print("\n")
+            print(
+                'Título: ' + str(element.get('title')) + ", " +
+                'Nombre del canal: ' + str(element.get('channel_title'))
+                + ", " + 'Visitas: ' + str(element.get('views')) + ", " +
+                'Likes: ' + str(element.get('likes')) + ", " +
+                'Dislikes: ' + str(element.get('dislikes')) + ", " +
+                'Tags: ' + str(element.get('tags')))
+        i += 1
+
+
 """
 Menu principal
 """
@@ -240,7 +259,7 @@ while True:
             "elementos, el tiempo (mseg) es:",
             str(result[0]))
 
-        printResults(result[1], n)
+        printResultsv2(result[1], n)
 
     else:
         sys.exit(0)
