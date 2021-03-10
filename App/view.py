@@ -219,26 +219,20 @@ while True:
     elif int(inputs[0]) == 4:
         categoria = int(input('Ingrese la categoría de referencia: '))
         result1 = controller.getVideosByCategory(
-            catalog['category'], categoria)
-
+            catalog['video'], categoria)
         result = controller.sortVideos(
             result1, lt.size(result1), 'ms', 'comparetitles')[1]
-        
+
         video_tendencia = controller.getMostTrendingDays(result)
         print(video_tendencia)
-        
-        
 
     elif int(inputs[0]) == 5:
         pais = input("Ingrese el país de referencia: ")
         tag = input('Ingrese el tag de referencia: ')
         n = int(input("Ingrese el número de videos que desea imprimir: "))
 
-        result1 = controller.getVideosByCountryAndTag(
+        result = controller.getVideosByCountryAndTag(
             catalog['country'], tag, pais)
-
-        result = controller.sortVideos(
-            result1, lt.size(result1), 'ms', 'cmpVideosByViews')
 
         print(
             "Para la muestra de",

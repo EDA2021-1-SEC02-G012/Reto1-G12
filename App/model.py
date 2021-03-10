@@ -27,9 +27,6 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import insertionsort as iss
-from DISClib.Algorithms.Sorting import selectionsort as ss
-from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import mergesort as ms
 from DISClib.Algorithms.Sorting import quicksort as qs
 import time
@@ -116,16 +113,17 @@ def newCategory(name, c_id):
 
 # Funciones de consulta
 
-def getVideosByCountryAndTag(catalog, tag, country):
-    sublist = getVideosByCountry(catalog, country)
-    sublist2 = getVideosByTag(sublist, tag)
-    return sublist2
-
-
 def getVideosByCategoryAndCountry(catalog, category, country):
     sublist = getVideosByCountry(catalog, country)
     sublist2 = getVideosByCategory(sublist, category)
     return sublist2
+
+
+def getVideosByCountryAndTag(catalog, tag, country):
+    sublist = getVideosByCountry(catalog, country)
+    sublist2 = getVideosByTag(sublist, tag)
+    sorted_list = sortVideos(sublist2, int(lt.size(sublist2)), 'ms', 'comparelikes')
+    return sorted_list
 
 
 def getVideosByCountry(catalog, country):
@@ -156,14 +154,14 @@ def getVideosByCategory(videos, category):
 
 
 def getVideosByTag(videos, tag):
-    lista = lt.newList('ARRAY_LIST', cmpVideosByViews)
-    titles = lt.newList('ARRAY_LIST')
+    lista = lt.newList('ARRAY_LIST')
     i = 1
 
     while i <= lt.size(videos):
         c_tags = lt.getElement(videos, i).get('tags')
-        lt.addLast(titles, (str(lt.getElement(videos, i).get('title'))))
-        if tag in c_tags and lt.isPresent(titles, str(lt.getElement(videos, i).get('title'))) != 0:
+        tagpresence = tag in c_tags
+
+        if tagpresence:
             element = lt.getElement(videos, i)
             lt.addLast(lista, element)
 
@@ -174,96 +172,38 @@ def getVideosByTag(videos, tag):
 
 def VideoMasTrendingCategoria(catalog, categoria):
     sublist = getVideosByCategory(catalog, categoria)
-    sorted_list = sortVideos(sublist, lt.size(sublist), "ms", "cmpVideosByViews" )[1]
+    sorted_list = sortVideos(
+        sublist, lt.size(sublist), "ms", "cmpVideosByViews")[1]
     VideoMasTrending = getMostTrendingDaysByTitle(sorted_list)
     return VideoMasTrending
 
 
-def getMostTrendingDaysByTitle_F(videos):
-    """
-    repetitions = lt.newList('ARRAY_LIST', cmpVideosByViews)
-    positions = lt.newList('ARRAY_LIST', cmpVideosByViews)
-    """
-
-
-    titles = lt.newList('ARRAY_LIST' )
-    rep_pos = lt.newList('ARRAY_LIST')
-    i = 1
-    j = 1
-
-    """
-    k = 1
-    pos = 1
-    repetition = 1
-    """
-
-    while i <= lt.size(videos):
-        video_title = lt.getElement(videos, i).get('title')
-
-        if lt.isPresent(titles, video_title) == 0:
-            lt.addLast(titles, video_title)
-            tupla = (i, 1)
-            lt.addLast(rep_pos, tupla)
-            j += 1
-            
-            try: 
-                if lt.getElement(rep_pos, j)[1] > lt.getElement(rep_pos, j-1)[1]:
-                    mayor = lt.getElement(rep_pos, j)
-                else: 
-                    mayor = lt.getElement(rep_pos, j-1) 
-            except IndexError: 
-                mayor = lt.getElement(rep_pos, j)
-
-            
-        else:
-            rep = lt.getElement(rep_pos, j)[1]
-            rep += 1
-
-        i += 1
-    
-    return mayor
-"""
-    while k <= lt.size(repetitions):
-        mayor = lt.getElement(repetitions, k)
-        k += 1
-        if mayor < lt.getElement(repetitions, k):
-            mayor = lt.getElement(repetitions, k)
-            pos = k
-
-    video_title_max_pos = lt.getElement(positions, k-1)
-    video_title_max = lt.getElement(videos, video_title_max_pos)
-"""
-
 def getMostTrendingDaysByTitle(videos):
-    elemento=lt.firstElement(videos)
-    mayor_titulo=None
-    mayor=0
-    i=0
+    elemento = lt.firstElement(videos)
+    mayor_titulo = None
+    mayor = 0
+    i = 0
 
     for video in lt.iterator(videos):
-        if video['video_id']==elemento['video_id']:
-            i+=1
+        if video['video_id'] == elemento['video_id']:
+            i += 1
         else:
-            if i>mayor:
-                mayor_titulo=elemento
-                mayor=i
-            i=1
-            elemento=video
+            if i > mayor:
+                mayor_titulo = elemento
+                mayor = i
+            i = 1
+            elemento = video
 
-    if i>mayor:
-        mayor_titulo=elemento
-        mayor=i
-
-    return (mayor_titulo,mayor)
-
+    if i > mayor:
+        mayor_titulo = elemento
+        mayor = i
+    return (mayor_titulo, mayor)
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
-
 def comparevideoid(videoid, video):
     return (videoid == video['video_id'])
-
 
 
 def cmpVideosByCategory(category1, category2):
@@ -275,8 +215,14 @@ def comparecountries(country_name, countries):
         return 0
     return -1
 
+
+def comparelikes(video1, video2):
+    return (float(video1['likes'])) > (float(video2['likes']))
+
+
 def comparetitles(video1, video2):
     return (video1['title']) > (video2['title'])
+
 
 def cmpVideosByViews(video1, video2) -> bool:
     """
@@ -293,7 +239,6 @@ def cmpVideosByViews(video1, video2) -> bool:
 
 
 def sortVideos(catalog, size, sort_type, cmp):
-    # Podemos remover los ifs
     sub_list = lt.subList(catalog, 0, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
@@ -309,7 +254,13 @@ def sortVideos(catalog, size, sort_type, cmp):
             sorted_list = ms.sort(sub_list, comparetitles)
         elif sort_type == "qs":
             sorted_list = qs.sort(sub_list, comparetitles)
- 
+
+    if cmp == 'comparelikes':
+        if sort_type == "ms":
+            sorted_list = ms.sort(sub_list, comparelikes)
+        elif sort_type == "qs":
+            sorted_list = qs.sort(sub_list, comparelikes)
+
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
