@@ -39,7 +39,7 @@ listas, una para los videos, otra para las categorias de los mismos y otra
 """
 
 # CONSTRUCCIÓN DEL CATÁLOGO
- """
+"""
 Inicializa el catálogo de videos. Crea una lista vacia para guardar
 todos los videos, adicionalmente, crea una lista vacia para los categorias.
 """
