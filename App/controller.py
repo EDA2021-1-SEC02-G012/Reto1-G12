@@ -104,7 +104,7 @@ def getVideosByCountry(catalog, country):
     return model.getVideosByCountry(catalog, country)
 
 
-def getVideosByCategory(catalog, categoria): 
+def getVideosByCategory(catalog, categoria):
     return model.getVideosByCategory(catalog, categoria)
 
 
@@ -112,12 +112,11 @@ def getMostTrendingDays(catalog):
     return model.getMostTrendingDaysByTitle(catalog)
 
 
-#Funciones de los Requerimientos
+# Funciones de los Requerimientos
 
-def Requerimiento_2(catalogo, categoria, pais): 
+def Requerimiento_2(catalogo, categoria, pais):
     result1 = model.getVideosByCategoryAndCountry(
                 catalogo, categoria, pais)
     result = model.sortVideos(
                 result1, lt.size(result1), 'ms', 'cmpVideosByViews')
     return result
-
