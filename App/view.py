@@ -36,6 +36,10 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+no_categorias = [
+    1, 2, 10, 15, 17, 18, 19, 20, 21, 22, 23, 24,
+    25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36,
+    37, 38, 39, 40, 41, 42,  43, 44]
 
 def printMenu():
     """
@@ -159,7 +163,17 @@ while True:
         print('\nDatos del primer video: ')
         for i in primervideo.keys():
             print(str(i) + str(primervideo.get(i)))
-        print('\nCategorías cargadas: ' + str(lt.size(catalog['category'])))
+        print(
+            "\n" + str(lt.size(catalog['category'])) + ' Categorías cargadas: ')
+        i = 1
+        resultadoxy = []
+        while i <= int(lt.size(catalog['category'])):
+            resultadoxy.append(
+                lt.getElement(catalog['category'], i).get('c_id') + ":" +
+                lt.getElement(catalog['category'], i).get('name'))
+            i += 1
+        print(*resultadoxy, sep=' ')
+
         lista = ''
         for i in range(0, lt.size(catalog['country'])):
             element = lt.getElement(catalog['country'], i)
@@ -168,37 +182,33 @@ while True:
                 lista += (pais.lower() + ", ")
             else:
                 lista += pais.lower()
-        print('Países cargados: ' + str(lt.size(catalog['country'])), lista)
+        print(
+            "\n" + str(lt.size(catalog['country'])) + ' Países cargados: ',
+            lista)
 
     elif str(inputs[0]) == "2":
-        try:
-            pais = input("\nIngrese el país de referencia: ")
-            if pais.lower() in lista:
-                categoria = int(input('Ingrese la categoría de referencia: '))
-                n = int(input(
-                    "Ingrese el número de videos que desea imprimir: "))     
-                print("\nCargando ....")
-                resultado = controller.Requerimiento_2(
-                    catalog['country'], categoria, pais)
-                print(
-                    "Para la muestra de",
-                    lt.size(catalog['country']),
-                    "elementos, el tiempo (mseg) es:",
-                    str(resultado[0]))
+        pais = input("\nIngrese el país de referencia: ")
+        if pais.lower() in lista:
+            categoria = int(input('Ingrese la categoría de referencia: '))
+            n = int(input(
+                "Ingrese el número de videos que desea imprimir: "))
+            print("\nCargando ....")
+            resultado = controller.Requerimiento_2(
+                catalog['country'], categoria, pais)
+            print(
+                "Para la muestra de",
+                lt.size(catalog['country']),
+                "elementos, el tiempo (mseg) es:",
+                str(resultado[0]))
 
-                if categoria not in range(1, 44):
-                    printResults(resultado[1], n)
-                else:
-                    print('Error en los parámetros')
-
+            if categoria not in range(1, 44):
+                printResults(resultado[1], n)
             else:
-                print("\n")
-                print("No se encontró el país")
+                print('Error en los parámetros')
 
-        except:
+        else:
             print("\n")
-            print("Error en los parámetros")
-
+            print("No se encontró el país")
     elif str(inputs[0]) == "3":
         pais = input("Ingrese el país de referencia: ")
         print("\nCargando ....")

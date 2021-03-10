@@ -55,9 +55,7 @@ def loadData(catalog):
 
 def loadVideos(catalog):
     """
-    Carga los videos del archivo.  Por cada libro se toman sus autores y por
-    cada uno de ellos, se crea en la lista de autores, a dicho autor y una
-    referencia al libro que se esta procesando.
+    Carga los videos del archivo.
     """
     videosfile = cf.data_dir + 'videos/videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
@@ -81,7 +79,7 @@ def loadCategories(catalog):
 
 def sortVideos(catalog, size, sort_type, cmp):
     """
-    Ordena los libros por el parámetro cmp
+    Ordena los videos por el parámetro cmp
     """
     return model.sortVideos(catalog, size, sort_type, cmp)
 
@@ -89,26 +87,44 @@ def sortVideos(catalog, size, sort_type, cmp):
 # Funciones de consulta sobre el catálogo
 
 def getVideosByCategoryAndCountry(catalog, category, country):
+    '''
+    Retorna los videos dado un país y categoría específicos
+    '''
     return model.getVideosByCategoryAndCountry(catalog, category, country)
 
 
 def getVideosByCountryAndTag(catalog, tag, country):
+    '''
+    Retorna los videos dado un país y tag específicos
+    '''
     return model.getVideosByCountryAndTag(catalog, tag, country)
 
 
 def getVideoMasTrendingByCategory(catalog, categoria):
+    '''
+    Retorna el video que fue más tiempo trending por categoría
+    '''
     return model.VideoMasTrendingCategoria(catalog, categoria)
 
 
 def getVideosByCountry(catalog, country):
+    '''
+    Retorna los videos dado un país específico
+    '''
     return model.getVideosByCountry(catalog, country)
 
 
 def getVideosByCategory(catalog, categoria):
+    '''
+    Retorna los videos dado una categoría específica
+    '''
     return model.getVideosByCategory(catalog, categoria)
 
 
 def getMostTrendingDays(catalog):
+    '''
+    Retorna el video que fue más tiempo trending
+    '''
     return model.getMostTrendingDaysByTitle(catalog)
 
 

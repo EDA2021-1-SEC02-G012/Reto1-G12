@@ -43,7 +43,8 @@ listas, una para los videos, otra para las categorias de los mismos.
 def newCatalog(list_type):
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
-    todos los videos, adicionalmente, crea una lista vacia para los categorias.
+    todos los videos, los videos por país
+    y adicionalmente, crea una lista vacia para los categorias.
     """
     catalog = {'video': None,
                'country': None,
@@ -56,11 +57,13 @@ def newCatalog(list_type):
     return catalog
 
 
-# Funciones para agregar informacion al catalogo
+# Funciones para agregar información al catalogo
 
 
 def addVideo(catalog, video):
-    # Se adiciona el video a la lista de videos
+    '''
+    Adiciona los videos a la lista de videos
+    '''
     lt.addLast(catalog['video'], video)
 
     countries = video['country'].split(",")
@@ -69,6 +72,9 @@ def addVideo(catalog, video):
 
 
 def addVideoCountry(catalog, country_name, video):
+    '''
+    Adiciona los videos a la lista de países, ordenándolos por país
+    '''
     countries = catalog['country']
     poscountry = lt.isPresent(countries, country_name)
     if poscountry > 0:
@@ -81,7 +87,7 @@ def addVideoCountry(catalog, country_name, video):
 
 def addCategory(catalog, categories):
     """
-    Adiciona una categoría a la lista de categorías
+    Adiciona las categorías a la lista de categorías
     """
     c = newCategory(categories['name'], categories['id'])
     lt.addLast(catalog['category'], c)
@@ -103,7 +109,7 @@ def newCountry(country_name):
 
 def newCategory(name, c_id):
     """
-    Esta estructura almancena los tags utilizados para marcar libros.
+    Esta estructura almancena las categorías utilizadas para marcar videos.
     """
     category = {'name': '', 'c_id': ''}
     category['name'] = name
@@ -114,19 +120,40 @@ def newCategory(name, c_id):
 # Funciones de consulta
 
 def getVideosByCategoryAndCountry(catalog, category, country):
+    """
+    Devuelve una lista de los videos.
+    Args:
+    catalog: Catálogo de información
+    category: Categoría específica
+    country: País específico
+    """
     sublist = getVideosByCountry(catalog, country)
     sublist2 = getVideosByCategory(sublist, category)
     return sublist2
 
 
 def getVideosByCountryAndTag(catalog, tag, country):
+    """
+    Devuelve una lista de los videos.
+    Args:
+    catalog: Catálogo de información
+    tag: Tag específico
+    country: País específico
+    """
     sublist = getVideosByCountry(catalog, country)
     sublist2 = getVideosByTag(sublist, tag)
-    sorted_list = sortVideos(sublist2, int(lt.size(sublist2)), 'ms', 'comparelikes')
+    sorted_list = sortVideos(
+        sublist2, int(lt.size(sublist2)), 'ms', 'comparelikes')
     return sorted_list
 
 
 def getVideosByCountry(catalog, country):
+    """
+    Devuelve una lista de los videos.
+    Args:
+    catalog: Catálogo de información
+    country: País específico
+    """
     operating = True
     i = 1
     while operating and i <= lt.size(catalog):
@@ -141,6 +168,12 @@ def getVideosByCountry(catalog, country):
 
 
 def getVideosByCategory(videos, category):
+    """
+    Devuelve una lista de los videos.
+    Args:
+    catalog: Catálogo de información
+    category: Categoría específica
+    """
     lista = lt.newList('ARRAY_LIST', cmpVideosByViews)
     i = 1
     while i <= lt.size(videos):
@@ -154,6 +187,12 @@ def getVideosByCategory(videos, category):
 
 
 def getVideosByTag(videos, tag):
+    """
+    Devuelve una lista de los videos.
+    Args:
+    catalog: Catálogo de información
+    tag: Tag específico
+    """
     lista = lt.newList('ARRAY_LIST')
     i = 1
 
@@ -171,6 +210,12 @@ def getVideosByTag(videos, tag):
 
 
 def VideoMasTrendingCategoria(catalog, categoria):
+    """
+    Devuelve una lista de los videos.
+    Args:
+    catalog: Catálogo de información
+    categoria: Categoría específica
+    """
     sublist = getVideosByCategory(catalog, categoria)
     sorted_list = sortVideos(
         sublist, lt.size(sublist), "ms", "cmpVideosByViews")[1]
@@ -179,6 +224,11 @@ def VideoMasTrendingCategoria(catalog, categoria):
 
 
 def getMostTrendingDaysByTitle(videos):
+    """
+    Devuelve una lista de los videos.
+    Args:
+    videos: Catálogo de información
+    """
     elemento = lt.firstElement(videos)
     mayor_titulo = None
     mayor = 0
@@ -203,24 +253,57 @@ def getMostTrendingDaysByTitle(videos):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 def comparevideoid(videoid, video):
+    """
+    Devuelve verdadero (True) si el ID de video1 es igual al del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'ID'
+    video2: informacion del segundo video que incluye su valor 'ID'
+    """
     return (videoid == video['video_id'])
 
 
 def cmpVideosByCategory(category1, category2):
+    """
+    Devuelve verdadero (True) si la 'categoría' de video1 es menor que la
+    del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'category'
+    video2: informacion del segundo video que incluye su valor 'category'
+    """
     return (float(category1['category_id']) > float(category2['category_id']))
 
 
 def comparecountries(country_name, countries):
+    """
+    Devuelve verdadero (0) si el video se encuentra en el catálogo
+    Args:
+    country_name: país específico
+    countries: catálogo de información
+    """
     if (country_name.lower() in countries['country_name'].lower()):
         return 0
     return -1
 
 
 def comparelikes(video1, video2):
+    """
+    Devuelve verdadero (True) si los 'likes' del video1 son menores que los
+    del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'likes'
+    video2: informacion del segundo video que incluye su valor 'likes'
+    """
     return (float(video1['likes'])) > (float(video2['likes']))
 
 
 def comparetitles(video1, video2):
+    """
+    Devuelve verdadero (True) si el 'title' de video1 es menor que la
+    del video2 (Comparación alfanumérica)
+    Args:
+    video1: informacion del primer video que incluye su valor 'title'
+    video2: informacion del segundo video que incluye su valor 'title'
+    """
     return (video1['title']) > (video2['title'])
 
 
@@ -239,6 +322,14 @@ def cmpVideosByViews(video1, video2) -> bool:
 
 
 def sortVideos(catalog, size, sort_type, cmp):
+    """
+    Organiza los videos del catálogo de acuerdo al parámetro establecido
+    Args:
+    catalog: catálogo de información
+    size: tamaño de la muestra
+    sort_type: tipo de sorting. Puede ser 'ms': mergesort o 'qs': quicksort.
+    cmp: parámetro de comparación
+    """
     sub_list = lt.subList(catalog, 0, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
