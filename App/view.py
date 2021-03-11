@@ -37,9 +37,9 @@ operación solicitada
 """
 
 no_categorias = [
-    "1", "2", "10", "15", "17", "18", "19", "20", "21", "22", "23", "24",
-    "25", "26", "27", "28", "29", "30", "31", "33", "34", "35", "36",
-    "37", "38", "39", "40", "41", "42",  "43", "44" ]
+    1, 2, 10, 15, 17, 18, 19, 20, 21, 22, 23, 24,
+    25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36,
+    37, 38, 39, 40, 41, 42, 43, 44]
 
 
 def printMenu():
@@ -65,18 +65,6 @@ def printMenu():
         " más likes en un país con un tag específico.")
     print("0- Salir")
 
-def printCategorias(): 
-    Categorias = [[1, "Film & Animation"], [2,  "Autos & Vehicles"], 
-    [10, "Music"], [15, "Pets & Animals"], [17, "Sports"], [18, "Short Movies"], 
-    [19, "Travel & Events"], [20, "Gaming"], [21, "Videoblogging"], 
-    [22, "People & Blogs"], [23, "Comedy"], [24, "Entertainment"],
-    [25, "News & Politics"], [26, "Howto & Style"], [27, "Education"], 
-    [28, "Science & Technology"],[29,  "Non-profits & Activism"], [30,  "Movies"],
-    [31, "Anime/Animation"], [33, "Classics"], [34, "Comedy"], [35, "Documentary"], 
-    [36, "Drama"], [37, "Family"], [38, "Foreign"],[39, "Horror"], [40, "Sci-Fi/Fantasy"],
-    [41, "Thriller"], [42, "Shorts"], [43, "Shows"], [44, "Trailers"] ]
-    for i in Categorias: 
-        print(i)
 
 def initCatalog(list_type):
     """
@@ -177,7 +165,8 @@ while True:
         for i in primervideo.keys():
             print(str(i) + str(primervideo.get(i)))
         print(
-            "\n" + str(lt.size(catalog['category'])) + ' Categorías cargadas: ')
+            "\n" + str(lt.size(catalog['category'])) + ' Categorías cargadas: '
+            )
         i = 1
         resultadoxy = []
         while i <= int(lt.size(catalog['category'])):
@@ -202,8 +191,7 @@ while True:
     elif str(inputs[0]) == "2":
         pais = input("\nIngrese el país de referencia: ")
         if pais.lower() in lista:
-            printCategorias()
-            categoria = (input('Ingrese la categoría de referencia: '))
+            categoria = int(input('Ingrese la categoría de referencia: '))
             if categoria in no_categorias:
                 n = int(input(
                     "Ingrese el número de videos que desea imprimir: "))
